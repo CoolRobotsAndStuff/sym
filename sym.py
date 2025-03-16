@@ -23,7 +23,7 @@ particles = []
 
 def random_particle() -> Particle:
     radious = 10*random()
-    density = 500000*random() + 1000
+    density = 150000000*random() + 1000
     return Particle(
         position=[random() * WIDTH, random()*HEIGHT],
         velocity=[(random() - 0.5) * 0.02, (random() - 0.5) * 0.02],
@@ -141,9 +141,6 @@ if __name__ == "__main__":
                     wsum = p.mass + other_p.mass
                     weight1 = p.mass / wsum
                     weight2 = other_p.mass / wsum
-                    print("weight1:", weight1)
-                    print("weight2:", weight2)
-                    print("sum:", weight2 + weight1)
                     new_p = Particle(position=[
                                         weight1 * p.position[0] + weight2 * other_p.position[0],
                                         weight1 * p.position[1] + weight2 * other_p.position[1]
@@ -165,7 +162,6 @@ if __name__ == "__main__":
                                         p.colour[2] * weight1 + other_p.colour[2] * weight2,
                                      ]
                     )
-                    print(new_p)
                     colliding_particles.append(new_p)
                     if follow_particle == p_index or follow_particle == other_index:
                         follow_particle = len(colliding_particles)-1
@@ -198,8 +194,8 @@ if __name__ == "__main__":
             
 
             new_p = deepcopy(p)
-            new_p.acceleration[0] = total_force[0] / new_p.mass * dt
-            new_p.acceleration[1] = total_force[1] / new_p.mass * dt
+            new_p.acceleration[0] = total_force[0] / new_p.mass # * dt
+            new_p.acceleration[1] = total_force[1] / new_p.mass # * dt
 
             new_particles.append(new_p)
 
@@ -210,7 +206,8 @@ if __name__ == "__main__":
             new_p.position[0] += new_p.velocity[0] * dt
             new_p.position[1] += new_p.velocity[1] * dt
             
-            pos = [((new_p.position[0] - cam_pos[0]) * zoom) + screen_width // 2 , ((new_p.position[1]- cam_pos[1]) * zoom) + screen_height //2   ]
+            pos = [((new_p.position[0]-cam_pos[0]) * zoom) + screen_width //2, 
+                   ((new_p.position[1]-cam_pos[1]) * zoom) + screen_height//2]
             
             
             if show_density: 
