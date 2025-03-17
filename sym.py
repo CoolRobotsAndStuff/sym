@@ -15,18 +15,25 @@ class Particle:
     will_be_deleted: bool = False
 
 
-NPARTICLES = 100
+NPARTICLES = 200
 WIDTH = 1000
 HEIGHT = 1000
+
+MAX_DENSITY = 60000000
+MIN_DENSITY = 10
+
+MAX_RADIOUS = 10
+MIN_RADIOUS = 0
+VELOCITY = 0.02
 
 particles = []
 
 def random_particle() -> Particle:
-    radious = 10*random()
-    density = 150000000*random() + 1000
+    radious = (MAX_RADIOUS-MIN_RADIOUS)*random() + MIN_RADIOUS
+    density = ((MAX_DENSITY - MIN_DENSITY) * random()) +  MIN_DENSITY
     return Particle(
         position=[random() * WIDTH, random()*HEIGHT],
-        velocity=[(random() - 0.5) * 0.02, (random() - 0.5) * 0.02],
+        velocity=[(random() - 0.5) * VELOCITY, (random() - 0.5) * VELOCITY],
         acceleration=[0, 0],
         mass = radious * density,
         radious = radious,
@@ -65,6 +72,10 @@ if __name__ == "__main__":
 
     dt = 0
     time = 1
+
+    screen_width, screen_height = screen.get_size()
+
+    cam_pos = [screen_width / 2, screen_height / 2]
 
     while running:
         screen_width, screen_height = screen.get_size()
